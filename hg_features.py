@@ -11,7 +11,7 @@ For usage see the below examples
 ------ extracting features from a pangenome_db ------
 python hg_features.py -f
                       -db (--database) <db_folder>
-                      -cn (--copy_number) <y(es), n(o): default is y>
+                      -cn (--copy_number) <y(es), n(o): default is yes>
                       -n (--name) <str>
                       -o (--output) <output_folder>
 
@@ -21,7 +21,7 @@ python hg_features.py -f
                       -gr (--groups) <groups.txt>
                       -cg (--classified_groups) <cg.csv>
                       -p (--proteins) <protein_folder>
-                      -cn (--copy_number) <y(es), n(o): default is y>
+                      -cn (--copy_number) <y(es), n(o): default is yes>
                       -n (--name) <str>
                       -o (--output) <output_folder>
 
