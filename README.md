@@ -6,3 +6,5 @@ kmer_features.py: Create k-mer composition features from a folder counting k-mer
 
 model_training.py: ...
 
+For usage of scripts see their respective model docstrings.
+
