@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 Author: Martijn Prevoo
-date: 20-03-2025
+Date: 20-03-2025
 
 Function: extract features from pangenome databases and separate files or
 extract interactions from a phage-bacterium interaction matrix
