@@ -1,9 +1,38 @@
 #!/usr/bin/env python3
 """
 Author: Martijn Prevoo
+date: 20-03-2025
 
-Function: ###
-Usage: ###
+Function: extract features from pangenome databases and separate files or
+extract interactions from a phage-bacterium interaction matrix
+
+For usage see the below examples
+
+------ extracting features from a pangenome_db ------
+python hg_features.py -f
+                      -db (--database) <db_folder>
+                      -cn (--copy_number) <y(es), n(o): default is y>
+                      -n (--name) <str>
+                      -o (--output) <output_folder>
+
+------ extracting features from separate files ------
+python hg_features.py -f
+                      -ge (--genomes) <genomes.txt>
+                      -gr (--groups) <groups.txt>
+                      -cg (--classified_groups) <cg.csv>
+                      -p (--proteins) <protein_folder>
+                      -cn (--copy_number) <y(es), n(o): default is y>
+                      -n (--name) <str>
+                      -o (--output) <output_folder>
+
+------ extracting interactions form interaction matrix ------
+python hg_features.py -i
+                      -m (--matrix) <matrix.csv>
+                      -pt (--phage_taxa) <phage_taxa.csv>
+                      -bt (--bacteria_taxa) <bacteria_taxa.csv>
+                      -pg (--phage_genomes) <phage_genomes.txt>
+                      -bg (--bacteria_genomes) <bacteria_genomes.txt>
+                      -o (--output) <output_file>
 
 """
 import os
@@ -373,83 +402,15 @@ def create_interactions(arg):
     inter.interactions.to_csv(output)
 
 
-def run_scripts(arg: list):
+def main():
     """"""
-    # example1: -f -db (--database) <db_folder>
-    #              -cn (--copy_number) <y(es), n(o): default is y>
-    #              -n (--name) <str>
-    #              -o (--output) <output_folder>
-    # example2: -f -ge (--genomes) <genomes.txt>
-    #              -gr (--groups) <groups.txt>
-    #              -cg (--classified_groups) <cg.csv>
-    #              -p (--proteins) <protein_folder>
-    #              -cn (--copy_number) <y(es), n(o): default is y>
-    #              -n (--name) <str>
-    #              -o (--output) <output_folder>
-    # example3: -i -m (--matrix) <matrix.csv>
-    #              -pt (--phage_taxa) <phage_taxa.csv>
-    #              -bt (--bacteria_taxa) <bacteria_taxa.csv>
-    #              -pg (--phage_genomes) <phage_genomes.txt>
-    #              -bg (--bacteria_genomes) <bacteria_genomes.txt>
-    #              -o (--output) <output_file>
-    if '-f' in arg or '--features' in arg:
-        create_features(arg)
-    elif '-i' in arg or '--interactions' in arg:
-        create_interactions(arg)
+    if '-f' in argv or '--features' in argv:
+        create_features(argv)
+    elif '-i' in argv or '--interactions' in argv:
+        create_interactions(argv)
     else:
         exit('ERROR: must either specify either '
              '--features (-f) or --interactions (-i)')
-
-
-def do_thing(in_folder: str, out_folder: str,
-             relax_modes: list = ('3', '4', '5', '6', '7'),
-             prefix: str = '', copy_number: bool = True):
-    """"""
-    # out_folder = 'output/updated_gpa/'
-    # in_folder = 'input/updated_HG_data'
-    if not os.path.exists(out_folder):
-        os.mkdir(out_folder)
-    arg = ['-i', '-m', f'{in_folder}/infection_matrix.csv',
-           '-o', f'{out_folder}/interactions.csv',
-           '-pt', f'{in_folder}/phenotypes_phages.csv',
-           '-bt', f'{in_folder}/phenotypes_bacteria.csv',
-           '-pg', f'{in_folder}/{prefix}phages_genomes.txt',
-           '-bg', f'{in_folder}/{prefix}bacteria_genomes.txt']
-    run_scripts(arg)
-    if copy_number:
-        cn = 'y'
-    else:
-        cn = 'n'
-    for r in relax_modes:
-        o = f'{out_folder}/{r}_{prefix}hg'
-        # phages
-        s = 'phages'
-        arg = ['-f', '-n', f'{r}_{prefix}{s}',
-               '-o', o,
-               '-cn', cn,
-               '-ge', f'{in_folder}/{prefix}{s}_genomes.txt',
-               '-gr', f'{in_folder}/{prefix}{s}_{r}_groups.txt',
-               '-cg', f'{in_folder}/{prefix}{s}_{r}_classified_groups.csv',
-               '-p', f'input/annotations/{s}']
-        run_scripts(arg)
-        # bacteria
-        s = 'bacteria'
-        arg = ['-f', '-n', f'{r}_{prefix}{s}',
-               '-o', o,
-               '-cn', cn,
-               '-ge', f'{in_folder}/{prefix}{s}_genomes.txt',
-               '-gr', f'{in_folder}/{prefix}{s}_{r}_groups.txt',
-               '-cg', f'{in_folder}/{prefix}{s}_{r}_classified_groups.csv',
-               '-p', f'input/annotations/{s}']
-        run_scripts(arg)
-
-
-def main():
-    """"""
-    in_folder = 'input/old_HG_data'
-    out_folder = 'output/medium_dataset/'
-    do_thing(relax_modes=['R7'],
-             in_folder=in_folder, out_folder=out_folder, prefix='medium_')
 
 
 if __name__ == '__main__':
