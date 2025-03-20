@@ -1,9 +1,16 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """
 Author: Martijn Prevoo
+Date: 20-03-2025
 
-Function: ###
-Usage: ###
+Function: Create k-mer composition features from a folder counting k-mer counts
+
+Usage: python kmer_features.py <path/to/input_folder> <path/to/output_file.csv>
+
+    input_folder: Location of a folder containing files with k-mer counts.
+                  Each file should contain the counts for an individual strain.
+
+    output_file.csv: Location where to write the outputted k-mer features.
 
 """
 import os
@@ -52,20 +59,8 @@ def xy(i, pf, bf):
 
 def main():
     """"""
-    arg = argv[1:]
-    kmer_folder = arg[0]
-    k = kmer_folder.rsplit('mers', 1)[0].rsplit('/', 1)[-1]
-
-    phage_kmers = f'{kmer_folder}phage_{k}mers/'
-    bact_kmers = f'{kmer_folder}bacterium_{k}mers/'
-    feature_folder = f'input/model_data/{k}mer/'
-
-    if not os.path.exists(feature_folder):
-        os.mkdir(feature_folder)
-    pf_file = f'{feature_folder}{k}mer_phages_features.csv'
-    bf_file = f'{feature_folder}{k}mer_bacteria_features.csv'
-    kmer_features(phage_kmers).to_csv(pf_file)
-    kmer_features(bact_kmers).to_csv(bf_file)
+    input_folder, output_folder = argv[1:]
+    kmer_features(input_folder).to_csv(output_folder)
 
 
 if __name__ == '__main__':
