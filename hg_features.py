@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """
 Author: Martijn Prevoo
 date: 20-03-2025
